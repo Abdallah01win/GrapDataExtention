@@ -1,45 +1,39 @@
-const questionAnswerArray = [
+let questionAnswerArray = [
   { question: "What is your name?", answer: "John Doe" },
   { question: "What is your age?", answer: "30" },
   // Add more objects as needed
 ];
 
 function automateQuestionsAndAnswers() {
-  let keepScanning = true;
+  let questionsAnswered = 0;
 
-  while (keepScanning) {
-    let foundAnyQuestion = false;
+  questionAnswerArray.forEach((qa) => {
+    const questionElement = findTextOnPage(qa.question);
 
-    questionAnswerArray.forEach((qa) => {
-      const questionElement = findTextOnPage(qa.question);
+    if (questionElement) {
+      const answerElement = findTextOnPage(qa.answer);
 
-      if (questionElement) {
-        foundAnyQuestion = true;
+      if (answerElement) {
+        answerElement.firstChild.firstChild.click();
 
-        const answerElement = findTextOnPage(qa.answer);
+        const nextButton = findTextOnPage("Next");
 
-        if (answerElement) {
-          console.log(answerElement);
-          answerElement.click();
+        if (nextButton) {
+          nextButton.click();
+          questionsAnswered++;
 
-          const nextButton = findTextOnPage("Next");
-
-          if (nextButton) {
-            nextButton.click();
-          }
+          setTimeout(() => {}, 2000);
         }
       }
-    });
-
-    if (!foundAnyQuestion) {
-      keepScanning = false;
     }
-  }
+  });
+
+  return questionsAnswered;
 }
 
 function findTextOnPage(text) {
   const elements = document.querySelectorAll("body *");
-  
+
   for (const element of elements) {
     if (element.textContent.trim() === text) {
       return element;
@@ -48,4 +42,18 @@ function findTextOnPage(text) {
   return null;
 }
 
-automateQuestionsAndAnswers();
+let = emptyIterationsCount = 0;
+
+while (true) {
+  const questionsAnswered = automateQuestionsAndAnswers();
+
+  if (questionsAnswered > 0) {
+    emptyIterationsCount = 0;
+  } else {
+    emptyIterationsCount++;
+  }
+
+  if (emptyIterationsCount > 3) {
+    break;
+  }
+}
