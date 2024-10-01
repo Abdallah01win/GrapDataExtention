@@ -21,8 +21,6 @@ function automateQuestionsAndAnswers() {
         if (nextButton) {
           nextButton.click();
           questionsAnswered++;
-
-          setTimeout(() => {}, 2000);
         }
       }
     }
@@ -42,9 +40,9 @@ function findTextOnPage(text) {
   return null;
 }
 
-let = emptyIterationsCount = 0;
+let emptyIterationsCount = 0;
 
-while (true) {
+function runAutomation() {
   const questionsAnswered = automateQuestionsAndAnswers();
 
   if (questionsAnswered > 0) {
@@ -54,6 +52,10 @@ while (true) {
   }
 
   if (emptyIterationsCount > 3) {
-    break;
+    clearInterval(intervalId);
   }
 }
+
+runAutomation();
+
+const intervalId = setInterval(runAutomation, 5000);
